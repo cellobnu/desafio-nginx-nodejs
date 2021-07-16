@@ -1,0 +1,51 @@
+version: '3'
+
+services: 
+
+  nodejsserver: 
+    build: 
+      context: ./app
+      dockerfile: Dockerfile.prod
+    image: cellobnu/node-desafio:prod
+    container_name: nodejsserver
+    #entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    volumes: 
+      - ./app:/usr/src/app
+    tty: true
+    # ports: 
+    #   - "3000:3000"
+    depends_on: 
+       - db
+    networks: 
+      - desafionet
+
+  nginxproxy:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.prod
+    image: cellobnu/nginx-desafio:prod
+    container_name: nginxproxy
+    networks: 
+      - desafionet
+    ports: 
+      - "8080:80"
+    
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes: 
+      - ./mysql:/var/lib/mysql
+    environment: 
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks: 
+      - desafionet
+
+
+networks: 
+  desafionet:
+    driver: bridge      

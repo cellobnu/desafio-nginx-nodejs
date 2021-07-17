@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile.prod
     image: cellobnu/nginx-desafio:prod
     container_name: nginxproxy
+    depends_on: 
+      - nodejsserver
     networks: 
       - desafionet
     ports: 

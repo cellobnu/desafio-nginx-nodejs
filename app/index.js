@@ -2,13 +2,15 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+let result = ''
+
 const config = {
   host: 'db',
   user: 'root',
   password: 'root',
   database:'nodedb'
 };
-let result = ''
+
 
 const mysql = require("mysql");
 const conn = mysql.createConnection(config);

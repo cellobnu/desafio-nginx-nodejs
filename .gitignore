@@ -1,1 +1,5 @@
 app/node_modules
+app/package-lock.json
+nginx/Xnginx.conf
+.DS_Store
+.gitignore

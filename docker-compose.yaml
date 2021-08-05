@@ -8,9 +8,10 @@ services:
       dockerfile: Dockerfile.prod
     image: cellobnu/node-desafio:prod
     container_name: nodejsserver
-    #entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     volumes: 
       - ./app:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules
     tty: true
     # ports: 
     #   - "3000:3000"
@@ -32,7 +33,6 @@ services:
     ports: 
       - "8080:80"
     
-
   db:
     image: mysql:5.7
     command: --innodb-use-native-aio=0
@@ -46,7 +46,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks: 
       - desafionet
-
 
 networks: 
   desafionet:
